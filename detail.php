@@ -3,10 +3,12 @@
 require __DIR__ .  '/vendor/autoload.php';
 
 // Agrega credenciales
-MercadoPago\SDK::setAccessToken('APP_USR-8104730364061025-082921-65df345d807de3c9c626abc08edc8268-234147885');
+
+MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-090914-5c508e1b02a34fcce879a999574cf5c9-469485398');
 
 
 $path = 'https://iaastefano-mp-ecommerce-php.herokuapp.com';
+// $path = "http://localhost/mp-ecommerce-php";
 
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
@@ -200,10 +202,12 @@ $preference->save();
                                             <?php echo $_POST['unit'] ?>
                                         </h3>
                                     </div>
-                                    <form action="/procesar-pago" method="POST">
+                                    <form action="procesar-pago.php" method="POST">
                                         <script
                                         src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                                        data-preference-id="<?php echo $preference->id; ?>">
+                                        data-preference-id="<?php echo $preference->id; ?>"
+                                        data-header-color="#2D3277"
+                                        data-button-label="Pagar la compra">
                                         </script>
                                     </form>
                                 </div>
