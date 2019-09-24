@@ -1,3 +1,71 @@
+<?php
+// SDK de Mercado Pago
+require __DIR__ .  '/vendor/autoload.php';
+
+// Agrega credenciales
+MercadoPago\SDK::setAccessToken('APP_USR-8104730364061025-082921-65df345d807de3c9c626abc08edc8268-234147885');
+
+// Crea un objeto de preferencia
+$preference = new MercadoPago\Preference();
+
+// Crea un ítem en la preferencia
+$item = new MercadoPago\Item();
+$item->title = $_POST['title'];
+$item->description = "Dispositivo móvil de Tienda e-commerce";
+$item->quantity = $_POST['unit'];
+$item->unit_price = $_POST['price'];
+$item->external_reference = "ABCD1234";
+
+//metodos de pagos excluidos
+$preference->payment_methods = array(
+    "excluded_payment_methods" => array(
+      array("id" => "amex")
+    ),
+    "excluded_payment_types" => array(
+      array("id" => "atm")
+    ),
+    "installments" => 6
+  );
+
+$preference->notification_url = "http://localhost/notification.php";
+
+$preference->items = array($item);
+
+// ...
+$payer = new MercadoPago\Payer();
+$payer->id = "471923173";
+$payer->name = "Test";
+$payer->lastname = "Test";
+$payer->surname = "Test";
+$payer->email = "test_user_63274575@testuser.com";
+// $payer->date_created = "2018-06-02T12:58:41.425-04:00";
+$payer->phone = array(
+"area_code" => "",
+"number" => "01 1111-1111"
+);
+$payer->identification = array(
+"type" => "DNI",
+"number" => "32659430"
+);
+// $payer->address = array(
+// "street_name" => "Cuesta Miguel Armendáriz",
+// "street_number" => 1004,
+// "zip_code" => "11020"
+// );
+// ...
+
+$preference->payer = $payer;
+
+$preference->back_urls = array(
+    "success" => "http://localhost/success.php",
+    "failure" => "http://localhost/failure.php",
+    "pending" => "http://localhost/pending.php"
+);
+
+$preference->auto_return = "approved";
+
+$preference->save();
+?>
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -120,17 +188,21 @@
                                                 <p class="as-producttile-tilelink">
                                                     <span data-ase-truncate="2"><?php echo $_POST['title'] ?></span>
                                                 </p>
-
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo $_POST['price'] ?>
+                                            <?php echo "$" . $_POST['price'] ?>
                                         </h3>
                                         <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
+                                            <?php echo $_POST['unit'] ?>
                                         </h3>
                                     </div>
-                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>
+                                    <form action="/procesar-pago" method="POST">
+                                        <script
+                                        src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                                        data-preference-id="<?php echo $preference->id; ?>">
+                                        </script>
+                                    </form>
                                 </div>
                             </div>
                         </div>
