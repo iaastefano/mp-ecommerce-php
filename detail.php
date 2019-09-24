@@ -6,6 +6,8 @@ require __DIR__ .  '/vendor/autoload.php';
 MercadoPago\SDK::setAccessToken('APP_USR-8104730364061025-082921-65df345d807de3c9c626abc08edc8268-234147885');
 
 
+$path = 'https://iaastefano-mp-ecommerce-php.herokuapp.com';
+
 // Crea un objeto de preferencia
 $preference = new MercadoPago\Preference();
 
@@ -28,7 +30,7 @@ $preference->payment_methods = array(
     "installments" => 6
   );
 
-$preference->notification_url = "http://localhost/notification.php";
+$preference->notification_url = $path . "/notification.php";
 
 $preference->items = array($item);
 
@@ -58,9 +60,9 @@ $payer->identification = array(
 $preference->payer = $payer;
 
 $preference->back_urls = array(
-    "success" => "http://localhost/success.php",
-    "failure" => "http://localhost/failure.php",
-    "pending" => "http://localhost/pending.php"
+    "success" => $path ."/success.php",
+    "failure" => $path ."/failure.php",
+    "pending" => $path ."/pending.php"
 );
 
 $preference->auto_return = "approved";
