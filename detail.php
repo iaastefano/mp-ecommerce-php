@@ -1,7 +1,4 @@
 <?php
-try {
-    //code...
-
 // SDK de Mercado Pago
 require __DIR__ .  '/vendor/autoload.php';
 
@@ -73,9 +70,7 @@ $preference->back_urls = array(
 $preference->auto_return = "approved";
 
 $preference->save();
-} catch (\Throwable $th) {
-    var_dump($th);
-}
+
 ?>
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
